@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Speech to Text</title>
+  <style>
+    body {
+      text-align: center;
+      font-family: Arial;
+      background: #111;
+      color: white;
+    }
+    button {
+      padding: 15px;
+      font-size: 18px;
+      margin-top: 20px;
+      cursor: pointer;
+    }
+    textarea {
+      width: 80%;
+      height: 200px;
+      margin-top: 20px;
+      font-size: 16px;
+    }
+  </style>
+</head>
+<body>
+
+<h1>🎤 Speech to Text App</h1>
+
+<button onclick="startListening()">Start Speaking</button>
+
+<br>
+
+<textarea id="output" placeholder="Your speech will appear here..."></textarea>
+
+<script>
+function startListening() {
+  const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+
+  if (!SpeechRecognition) {
+    alert("Speech Recognition not supported in this browser.");
+    return;
+  }
+
+  const recognition = new SpeechRecognition();
+  recognition.lang = 'en-US';
+  recognition.continuous = false;
+
+  recognition.start();
+
+  recognition.onresult = function(event) {
+    const text = event.results[0][0].transcript;
+    document.getElementById("output").value += text + "\n";
+  };
+
+  recognition.onerror = function() {
+    alert("Error recognizing speech. Try again.");
+  };
+}
+</script>
+
+</body>
+</html>
